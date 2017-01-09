@@ -1,5 +1,5 @@
 import { publishedContent, unpublishedContent } from './config/endpoints';
-require('isomorphic-fetch');
+import 'isomorphic-fetch';
 
 class KenticoDeliverAPI {
 	constructor(projectId) {
