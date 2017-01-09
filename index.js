@@ -105,6 +105,10 @@ const _published = (published) => {
 	if (typeof published !== 'boolean') {
 		throw new Error(`published must be passed as a boolean value`)
 	}
+	if (published === undefined) {
+		return true;
+	}
+	return published;
 }
 
 export default KenticoDeliverAPI;
