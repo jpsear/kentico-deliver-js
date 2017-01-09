@@ -13,6 +13,7 @@ class KenticoDeliverAPI {
 
 	run() {
 		return new Promise((resolve, reject) => {
+			// Kentico fetch will go here
 			resolve(this.query)
 		})
 	}
