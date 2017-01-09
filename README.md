@@ -17,8 +17,13 @@ let items;
 api
  .type('drinks')
  .run()
- .then(result => items = result)
+ .then(result => console.info(result, 👌))
  .catch(error => console.warn(error))
 ```
+
+## API
+
+`.type()
+
 
 
