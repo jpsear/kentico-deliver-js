@@ -1,0 +1,29 @@
+{
+  "name": "kentico-deliver-js",
+  "version": "1.0.0",
+  "description": "A light wrapper around the Kentico Deliver/Cloud API for parameterised queries",
+  "main": "index.js",
+  "dependencies": {},
+	"devDependencies": {},
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jpsear/kentico-deliver-js.git"
+  },
+  "keywords": [
+    "Kentico",
+    "Cloud",
+    "Kentico",
+    "Deliver",
+    "JS",
+    "API"
+  ],
+  "author": "James Sear",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jpsear/kentico-deliver-js/issues"
+  },
+  "homepage": "https://github.com/jpsear/kentico-deliver-js#readme"
+}
