@@ -2,6 +2,10 @@ import { publishedContent, unpublishedContent } from './config/endpoints';
 import 'isomorphic-fetch';
 
 class KenticoDeliverAPI {
+	/**
+	 * Instantiates the KenticoDeliverAPI class
+	 * @param {string} Kentico Your Project ID.
+	 */
 	constructor(projectId) {
 		if (typeof projectId !== 'string') {
 			throw new Error(`KenticoDeliverAPI must be instantiated with a Project ID`)
@@ -14,24 +18,84 @@ class KenticoDeliverAPI {
 		return this;
 	}
 
+	/**
+	 * Runs the provided query. Must be supplied at the end of the chain
+	 * @return {Promise} The dataset.
+	 */
 	run() {
 		return new Promise((resolve, reject) => {
 			this.query.queryText = _combineQueryValues(this.query.values);
 
-			this.fetchData(this.query, resolve, reject)
+			this._fetchData(this.query, resolve, reject)
 				.then(result => resolve(result))
 				.catch(error => reject(error))
 		})
 	}
 
-	fetchData(query, resolve, reject) {
+	/**
+	 * Returns one item of the given system id.
+	 * @param {string} id - The id of the resource
+	 */
+	id(id) {
+		return this._handler(id, _id);
+	}
+
+	/**
+	 * Returns one item of the given system name.
+	 * @param {string} name - The name of the resource
+	 */
+	name(name) {
+		return this._handler(name, _name);
+	}
+
+	/**
+	 * Returns one item of the given system codename.
+	 * @param {string} codeName - The codeName of the resource
+	 */
+	codeName(codeName) {
+		return this._handler(codeName, _codeName);
+	}
+
+	/**
+	 * Returns items of the given system content type.
+	 * @param {string} type - The content type of the resource
+	 */
+	type(type) {
+		return this._handler(type, _type);
+	}
+
+	/**
+	 * Returns items in the given sitemap location.
+	 * @param {string} sitemapLocation - The sitemap location of the resource
+	 */
+	sitemapLocation(sitemapLocation) {
+		return this._handler(sitemapLocation, _sitemapLocation);
+	}
+
+	/**
+	 * Returns items matching the given last modified date
+	 * @param {Date} lastModified - The last modified date of the resource
+	 */
+	lastModified(lastModified) {
+		return this._handler(lastModified, _lastModified);
+	}
+
+	/**
+	 * Filters the dataset to return either published or unpublished content
+	 * @param {Bool} published - Whether the content is published or not
+	 */
+	published(published) {
+		this.query = Object.assign(this.query, this.query.published = _published(published));
+		return this;
+	}
+
+	_fetchData(query, resolve, reject) {
 		const { queryText, uriEndpoint, projectId } = this.query;
 
 		if (!query.published) {
 			// fetch unpublished data
 		}
 		else {
-			console.log(`${publishedContent}/${projectId}/${uriEndpoint}?${queryText}`);
 			return fetch(`${publishedContent}/${projectId}/${uriEndpoint}?${queryText}`)
 				.then(result => { 
 					resolve(result.json()) 
@@ -42,37 +106,8 @@ class KenticoDeliverAPI {
 		}
 	}
 
-	handler(val, fn) {
+	_handler(val, fn) {
 		this.query = Object.assign(this.query, this.query.values.push(fn(val)));
-		return this;
-	}
-
-	id(id) {
-		return this.handler(id, _id);
-	}
-
-	name(name) {
-		return this.handler(name, _name);
-	}
-
-	codeName(codeName) {
-		return this.handler(codeName, _codeName);
-	}
-
-	type(type) {
-		return this.handler(type, _type);
-	}
-
-	sitemapLocation(sitemapLocation) {
-		return this.handler(sitemapLocation, _sitemapLocation);
-	}
-
-	lastModified(lastModified) {
-		return this.handler(lastModified, _lastModified);
-	}
-
-	published(published) {
-		this.query = Object.assign(this.query, this.query.published = _published(published));
 		return this;
 	}
 }
