@@ -22,8 +22,7 @@ api
 ```
 
 ## API
-
-`.type()
+... WIP
 
 
 
