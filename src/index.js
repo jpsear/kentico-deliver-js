@@ -51,7 +51,7 @@ class KenticoDeliverAPI {
    * @param {string} operator - The operator to filter the resource by (lt, lte, gt, gte, in, contains, range)
    */
   id(id, operator) {
-    return this._handler(id, _parseOperator(operator, 'id'), _id);
+    return this._handler(id, operator, _id);
   }
 
   /**
@@ -60,7 +60,7 @@ class KenticoDeliverAPI {
    * @param {string} operator - The operator to filter the resource by (lt, lte, gt, gte, in, contains, range)
    */
   name(name, operator) {
-    return this._handler(name, _parseOperator(operator, 'name'), _name);
+    return this._handler(name, operator, _name);
   }
 
   /**
@@ -69,7 +69,7 @@ class KenticoDeliverAPI {
    * @param {string} operator - The operator to filter the resource by (lt, lte, gt, gte, in, contains, range)
    */
   codeName(codeName, operator) {
-    return this._handler(codeName, _parseOperator(operator, 'codeName'), _codeName);
+    return this._handler(codeName, operator, _codeName);
   }
 
   /**
@@ -78,7 +78,7 @@ class KenticoDeliverAPI {
    * @param {string} operator - The operator to filter the resource by (lt, lte, gt, gte, in, contains, range)
    */
   type(type, operator) {
-    return this._handler(type, _parseOperator(operator, 'type'), _type);
+    return this._handler(type, operator, _type);
   }
 
   /**
@@ -87,7 +87,7 @@ class KenticoDeliverAPI {
    * @param {string} operator - The operator to filter the resource by (lt, lte, gt, gte, in, contains, range)
    */
   sitemapLocation(sitemapLocation, operator) {
-    return this._handler(sitemapLocation, _parseOperator(operator, 'sitemapLocation'), _sitemapLocation);
+    return this._handler(sitemapLocation, operator, _sitemapLocation);
   }
 
   /**
@@ -96,7 +96,7 @@ class KenticoDeliverAPI {
    * @param {string} operator - The operator to filter the resource by (lt, lte, gt, gte, in, contains, range)
    */
   lastModified(lastModified, operator) {
-    return this._handler(lastModified, _parseOperator(operator, 'lastModified'), _lastModified);
+    return this._handler(lastModified, operator, _lastModified);
   }
 
   /**

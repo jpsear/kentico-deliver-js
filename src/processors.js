@@ -6,48 +6,62 @@ const _id = (id, operator) => {
   if (typeof id !== 'string') {
     throw new Error(`id must be passed as a string`)
   }
+	
   if (id.indexOf(' ') >= 0) {
     throw new Error(`id must not contain spaces`);
   }
-  return `&system.id${operator}=${id}`;
+	
+	let op = _parseOperator(operator, 'id');
+  return `&system.id${op}=${id}`;
 }
 
 const _name = (name, operator) => {
   if (typeof name !== 'string') {
     throw new Error(`name must be passed as a string`)
   }
-  return `&system.name${operator}=${encodeURIComponent(name)}`;
+
+	let op = _parseOperator(operator, 'name');
+  return `&system.name${op}=${encodeURIComponent(name)}`;
 };
 
 const _codeName = (codeName, operator) => {
   if (typeof codeName !== 'string') {
     throw new Error(`codeName must be passed as a string`)
   }
+
   if (codeName.indexOf(' ') >= 0) {
     throw new Error(`codeName must not contain spaces`);
   }
-  return `&system.codename${operator}=${codeName}`;
+
+	let op = _parseOperator(operator, 'codeName');
+  return `&system.codename${op}=${codeName}`;
 };
 
 const _type = (type, operator) =>  {
   if (typeof type !== 'string') {
     throw new Error(`type must be passed as a string`);
   }
-  return `&system.type${operator}=${encodeURIComponent(type)}`;
+
+	let op = _parseOperator(operator, 'type');
+  return `&system.type${op}=${encodeURIComponent(type)}`;
 };
 
 const _sitemapLocation = (sitemapLocation, operator) => {
   if (typeof sitemapLocation !== 'string') {
     throw new Error(`sitemapLocation must be passed as a string`);
   }
-  return `&system.sitemap_locations${operator}=${encodeURIComponent(sitemapLocation)}`;
+
+	let op = _parseOperator(operator, 'sitemapLocation');
+  return `&system.sitemap_locations${op}=${encodeURIComponent(sitemapLocation)}`;
 };
 
 const _lastModified = (lastModified, operator) => {
   if (!lastModified instanceof Date) {
     throw new Error(`lastModified must be passed as a Date object`);
   }
-  return `&system.last_modified${operator}=${lastModified}`;
+
+	let op = _parseOperator(operator, 'lastModified');
+  return `&system.last_modified${op}=${lastModified}`;
 };
 
 const _published = (published, previewAPIKey) => {
