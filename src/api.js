@@ -28,9 +28,13 @@ class KenticoDeliverAPI {
    * @param {string} Kentico Your Project ID.
    */
   constructor(projectId, previewAPIKey) {
-    if (typeof projectId !== 'string') {
+    if (typeof projectId !== 'string' || projectId === undefined) {
       throw new Error(`KenticoDeliverAPI must be instantiated with a Project ID`)
     }
+
+		if (typeof previewAPIKey !== 'string') {
+			throw new Error(`KenticoDeliverAPI Preview API Key must be a string`)
+		}
     
     this.uriEndpoint = `items`;
     this.projectId = projectId;
