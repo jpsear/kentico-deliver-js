@@ -6,12 +6,12 @@ const _id = (id, operator) => {
   if (typeof id !== 'string') {
     throw new Error(`id must be passed as a string`)
   }
-	
+  
   if (id.indexOf(' ') >= 0) {
     throw new Error(`id must not contain spaces`);
   }
-	
-	let op = _parseOperator(operator, 'id');
+  
+  let op = _parseOperator(operator, 'id');
   return `&system.id${op}=${id}`;
 }
 
@@ -20,7 +20,7 @@ const _name = (name, operator) => {
     throw new Error(`name must be passed as a string`)
   }
 
-	let op = _parseOperator(operator, 'name');
+  let op = _parseOperator(operator, 'name');
   return `&system.name${op}=${encodeURIComponent(name)}`;
 };
 
@@ -33,7 +33,7 @@ const _codeName = (codeName, operator) => {
     throw new Error(`codeName must not contain spaces`);
   }
 
-	let op = _parseOperator(operator, 'codeName');
+  let op = _parseOperator(operator, 'codeName');
   return `&system.codename${op}=${codeName}`;
 };
 
@@ -42,7 +42,7 @@ const _type = (type, operator) =>  {
     throw new Error(`type must be passed as a string`);
   }
 
-	let op = _parseOperator(operator, 'type');
+  let op = _parseOperator(operator, 'type');
   return `&system.type${op}=${encodeURIComponent(type)}`;
 };
 
@@ -51,7 +51,7 @@ const _sitemapLocation = (sitemapLocation, operator) => {
     throw new Error(`sitemapLocation must be passed as a string`);
   }
 
-	let op = _parseOperator(operator, 'sitemapLocation');
+  let op = _parseOperator(operator, 'sitemapLocation');
   return `&system.sitemap_locations${op}=${encodeURIComponent(sitemapLocation)}`;
 };
 
@@ -60,7 +60,7 @@ const _lastModified = (lastModified, operator) => {
     throw new Error(`lastModified must be passed as a Date object`);
   }
 
-	let op = _parseOperator(operator, 'lastModified');
+  let op = _parseOperator(operator, 'lastModified');
   return `&system.last_modified${op}=${lastModified}`;
 };
 
