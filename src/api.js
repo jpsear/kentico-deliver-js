@@ -32,7 +32,7 @@ class KenticoDeliverAPI {
       throw new Error(`KenticoDeliverAPI must be instantiated with a Project ID`)
     }
 
-		if (typeof previewAPIKey !== 'string') {
+		if (previewAPIKey && typeof previewAPIKey !== 'string') {
 			throw new Error(`KenticoDeliverAPI Preview API Key must be a string`)
 		}
     
