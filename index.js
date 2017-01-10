@@ -7,13 +7,14 @@ class KenticoDeliverAPI {
    * @constructor
    * @param {string} Kentico Your Project ID.
    */
-  constructor(projectId) {
+  constructor(projectId, previewAPIKey) {
     if (typeof projectId !== 'string') {
       throw new Error(`KenticoDeliverAPI must be instantiated with a Project ID`)
     }
     
     this.uriEndpoint = `items`;
     this.projectId = projectId;
+    this.previewAPIKey = previewAPIKey;
     this.defaults = { 	
       values: [],
       published: true,
@@ -48,7 +49,7 @@ class KenticoDeliverAPI {
    * @param {string} operator - The operator to filter the resource by (lt, lte, gt, gte, in, contains, range)
    */
   codeName(codeName, operator) {
-    return this._handler(codeName, _parseOperator(operator, 'codeName'),_codeName);
+    return this._handler(codeName, _parseOperator(operator, 'codeName'), _codeName);
   }
 
   /**
@@ -83,8 +84,8 @@ class KenticoDeliverAPI {
    * @param {Boolean} published - Whether the content is published or not
    * @param {string} operator - The operator to filter the resource by (lt, lte, gt, gte, in, contains, range)
    */
-  published(published) {
-    this.query = Object.assign(this.query, this.query.published = _published(published));
+  published(published, previewAPIKey = '') {
+    this.query = Object.assign(this.query, this.query.published = _published(published, this.previewAPIKey));
     return this;
   }
 
@@ -130,12 +131,19 @@ class KenticoDeliverAPI {
    */
   _fetchData(query, resolve, reject) {
     const { queryText, published } = this.query;
+    const fullQuery = `${this.projectId}/${this.uriEndpoint}?${queryText}`;
 
     if (!query.published) {
-      // fetch unpublished data
+      return fetch(`${unpublishedContent}/${fullQuery}`, 
+        { 
+          headers: { Authorization: `Bearer ${this.previewAPIKey}` }
+        }
+      )
+        .then(result => resolve(result.json()))
+        .catch(error => reject(error))
     }
     else {
-      return fetch(`${publishedContent}/${this.projectId}/${this.uriEndpoint}?${queryText}`)
+      return fetch(`${publishedContent}/${fullQuery}`)
         .then(result => resolve(result.json()))
         .catch(error => reject(error))
     }
@@ -214,7 +222,11 @@ const _lastModified = (lastModified, operator) => {
   return `&system.last_modified${operator}=${lastModified}`;
 };
 
-const _published = (published) => {
+const _published = (published, previewAPIKey) => {
+  if (published === false && previewAPIKey === undefined) {
+    throw new Error(`To fetch unpublished content, you must supply a Preview API Key`);
+  }
+
   if (typeof published !== 'boolean') {
     throw new Error(`published must be passed as a boolean value`);
   }
