@@ -142,16 +142,16 @@ class KenticoDeliverAPI {
     })
   }
 
-  // /**
-  //  * Pass a raw query (not recommended)
-  //  * @param {string} query - The query content
-  //  */
-  // dangerousQuery(query) {
-  //   if (typeof query !== 'string') {
-  //     throw new Error(`dangerousQuery must be passed a string`);
-  //   }
-  //   return 
-  // }
+  /**
+   * Pass a raw query (not recommended). Example: 'system.id=123'
+   * @param {string} query - The query content
+   */
+  dangerousQuery(query) {
+    if (typeof query !== 'string') {
+      throw new Error(`dangerousQuery must be passed a string`);
+    }
+    return this._handler(query, '', () => query);
+  }
 
   /**
    * Fetches the data from Kentico Deliver/Cloud using the `fetch` package
@@ -183,7 +183,7 @@ class KenticoDeliverAPI {
   /**
    * Processes the request for the resource and adds it our the array of queries, as a string
    * @private 
-   * @param {string} value - The value wanted for the query
+   * @param {string} val - The value wanted for the query
    * @param {string} operator - The operator to filter the query with
    * @param {function} fn - The function to be called to manipulate the query string content
    */
