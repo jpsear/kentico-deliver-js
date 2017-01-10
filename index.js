@@ -4,18 +4,23 @@ import 'isomorphic-fetch';
 class KenticoDeliverAPI {
 	/**
 	 * Instantiates the KenticoDeliverAPI class
+	 * @constructor
 	 * @param {string} Kentico Your Project ID.
 	 */
 	constructor(projectId) {
 		if (typeof projectId !== 'string') {
 			throw new Error(`KenticoDeliverAPI must be instantiated with a Project ID`)
 		}
-		this.query = { 
-			uriEndpoint: `items`,
+		
+		this.uriEndpoint = `items`;
+		this.projectId = projectId;
+		this.defaults = { 	
 			values: [],
 			published: true,
-			projectId
+			queryText: ''
 		}
+		this._initAndResetQuery();
+
 		return this;
 	}
 
@@ -75,7 +80,7 @@ class KenticoDeliverAPI {
 
 	/**
 	 * Filters the dataset to return either published or unpublished content
-	 * @param {Bool} published - Whether the content is published or not
+	 * @param {Boolean} published - Whether the content is published or not
 	 * @param {string} operator - The operator to filter the resource by (lt, lte, gt, gte, in, contains, range)
 	 */
 	published(published) {
@@ -83,27 +88,6 @@ class KenticoDeliverAPI {
 		return this;
 	}
 
-	_fetchData(query, resolve, reject) {
-		const { queryText, uriEndpoint, projectId } = this.query;
-
-		if (!query.published) {
-			// fetch unpublished data
-		}
-		else {
-			return fetch(`${publishedContent}/${projectId}/${uriEndpoint}?${queryText}`)
-				.then(result => { 
-					resolve(result.json()) 
-				})
-				.catch(error => {
-					reject(error)
-				})
-		}
-	}
-
-	_handler(val, operator, fn) {
-		this.query = Object.assign(this.query, this.query.values.push(fn(val, operator)));
-		return this;
-	}
 
 	/**
 	 * Runs the provided query. Must be supplied at the end of the chain
@@ -114,9 +98,67 @@ class KenticoDeliverAPI {
 			this.query.queryText = _combineQueryValues(this.query.values);
 
 			this._fetchData(this.query, resolve, reject)
-				.then(result => resolve(result))
-				.catch(error => reject(error))
+				.then(result => {
+					this._initAndResetQuery();
+					resolve(result);
+				})
+				.catch(error => {
+					this._initAndResetQuery();
+					reject(error)
+				})
 		})
+	}
+
+	/**
+	 * A debug method for seeing what your query object looks like
+	 * @return {Promise} The query object as the result of the promise.
+	 */
+	queryDebug() {
+		return new Promise((resolve, reject) => {
+			this.query.queryText = _combineQueryValues(this.query.values);
+			resolve(this.query);
+			this._initAndResetQuery();
+		})
+	}
+
+	/**
+	 * Fetches the data from Kentico Deliver/Cloud using the `fetch` package
+	 * @private 
+	 * @param {object} query - The query object
+	 * @param {function} resolve - The function to call once data has been received
+	 * @param {function} reject - The function to call if an error occurs
+	 */
+	_fetchData(query, resolve, reject) {
+		const { queryText, published } = this.query;
+
+		if (!query.published) {
+			// fetch unpublished data
+		}
+		else {
+			return fetch(`${publishedContent}/${this.projectId}/${this.uriEndpoint}?${queryText}`)
+				.then(result => resolve(result.json()))
+				.catch(error => reject(error))
+		}
+	}
+
+	/**
+	 * Processes the request for the resource and adds it our the array of queries, as a string
+	 * @private 
+	 * @param {string} value - The value wanted for the query
+	 * @param {string} operator - The operator to filter the query with
+	 * @param {function} fn - The function to be called to manipulate the query string content
+	 */
+	_handler(val, operator, fn) {
+		this.query = Object.assign(this.query, this.query.values.push(fn(val, operator)));
+		return this;
+	}
+
+	/**
+	 * Resets the query object to the default properties
+	 * @private 
+	 */
+	_initAndResetQuery() {
+		return this.query = Object.assign({}, this.defaults);
 	}
 }
 
