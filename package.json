@@ -1,15 +1,15 @@
 {
   "name": "kentico-deliver-js",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A light wrapper around the Kentico Deliver/Cloud API for parameterised queries",
   "engines": {
     "node": ">=6.5.0"
   },
   "main": "lib/index",
   "dependencies": {
-			"whatwg-fetch": "^2.0.1",
-			"isomorphic-fetch": "^2.2.1"
-	},
+    "whatwg-fetch": "^2.0.1",
+    "isomorphic-fetch": "^2.2.1"
+  },
   "devDependencies": {
     "babel-cli": "^6.18.0",
     "babel-core": "^6.21.0",
@@ -21,13 +21,13 @@
     "chai": "^3.5.0",
     "jsdoc-to-markdown": "^2.0.1",
     "mocha": "^3.2.0",
-		"rimraf": "^2.5.4"
+    "rimraf": "^2.5.4"
   },
   "scripts": {
-		"prepublish": "npm run compile",
+    "prepublish": "npm run compile",
     "test": "mocha test/*.js --require babel-register --watch",
     "docs": "jsdoc2md index.js > api.md",
-		"compile": "rimraf lib/ && babel -d lib/ src/"
+    "compile": "rimraf lib/ && babel -d lib/ src/"
   },
   "repository": {
     "type": "git",
