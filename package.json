@@ -1,6 +1,6 @@
 {
   "name": "kentico-deliver-js",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A light wrapper around the Kentico Deliver/Cloud API for parameterised queries",
   "engines": {
     "node": ">=6.5.0"
