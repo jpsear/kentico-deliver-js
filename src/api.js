@@ -32,9 +32,9 @@ class KenticoDeliverAPI {
       throw new Error(`KenticoDeliverAPI must be instantiated with a Project ID`)
     }
 
-		if (previewAPIKey && typeof previewAPIKey !== 'string') {
-			throw new Error(`KenticoDeliverAPI Preview API Key must be a string`)
-		}
+    if (previewAPIKey && typeof previewAPIKey !== 'string') {
+      throw new Error(`KenticoDeliverAPI Preview API Key must be a string`)
+    }
     
     this.uriEndpoint = `items`;
     this.projectId = projectId;
