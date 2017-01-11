@@ -1,0 +1,9 @@
+.github
+.editorconfig
+.babelrc
+.idea/
+src/
+test/
+!lib/
+coverage
+.github/
